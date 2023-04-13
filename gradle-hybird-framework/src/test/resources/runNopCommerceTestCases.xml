@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="NopCommerce">
+
+  <listeners>
+		<listeners class-name = "commons.MethodListener"></listeners>
+		<!-- <listeners class-name = "reportConfig.ExtentTestListener"></listeners>
+		<listeners class-name = "reportConfig.AllureTestListener"></listeners>
+		<listeners class-name = "org.uncommons.reportng.HTMLReporter"></listeners>
+		<listeners class-name = "org.uncommons.reportng.JUnitXMLReporter"></listeners>-->
+	
+  </listeners>
+
+  <test name="Run on CHROME">
+	<parameter name="browser" value="CHROME"></parameter>
+    <classes>
+      <class name="com.nopcommerce.users.Level_22_Multiple_Enviroment_Owner"/>
+    </classes>
+  </test> 
+
+</suite> 
