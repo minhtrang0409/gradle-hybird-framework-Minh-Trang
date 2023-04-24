@@ -10,6 +10,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -70,32 +72,43 @@ public class BaseTest {
 			break;
 		default:
 			throw new RuntimeException("Please input with correct browser name.");
-		}
-		
+		}		
 		driver.manage().window().setPosition(new Point(0,0));
 		driver.manage().window().maximize();
 		driver.get(GlobalConstants.PORTAL_PAGE_URL);
 		driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
 		return driver;
+	
 	}
 	
 	public WebDriver getBrowserDriver(String browserName, String appUrl) {
-		BrowserName browser = BrowserName.valueOf(browserName.toUpperCase());
-		switch (browser) {
-		case FIREFOX: 
-//			WebDriverManager.firefoxdriver().setup();
-//			driver = new FirefoxDriver();
-			driver = WebDriverManager.firefoxdriver().create();
-			break;
-		case CHROME :
-			driver = WebDriverManager.chromedriver().create();
-			break;
-		case EDGE :	
-			driver = WebDriverManager.edgedriver().create();
-			break;
-		default:
+		if (browserName.equals("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			FirefoxOptions options = new FirefoxOptions();
+			options.setAcceptInsecureCerts(true);
+			driver = new FirefoxDriver(options);
+		} else if (browserName.equals("h_firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			FirefoxOptions options = new FirefoxOptions();
+			options.addArguments("--headless");
+			options.addArguments("windown-size=1920x1080");
+			driver = new FirefoxDriver(options);
+		}else if (browserName.equals("chrome")) {
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions options = new ChromeOptions();
+			options.setAcceptInsecureCerts(true);
+			driver = new ChromeDriver(options);
+		}else if (browserName.equals("h_chrome")) {
+			WebDriverManager.chromedriver().setup();
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--headless");
+			options.addArguments("windown-size=1920x1080");
+			driver = new ChromeDriver(options);
+		}else if (browserName.equals("edge")) {
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
+		}else 
 			throw new RuntimeException("Please input with correct browser name.");
-		}
 		
 		driver.manage().window().setPosition(new Point(0,0));
 		driver.manage().window().maximize();
